@@ -1,3 +1,13 @@
+/**
+ * Application Settings & MCP Server Integration View.
+ *
+ * This view provides:
+ * 1. Backend API Endpoint Configuration: Allows configuring custom or remote FastAPI URLs.
+ * 2. GitHub Token Management: Secure local browser storage of Personal Access Tokens (PAT).
+ * 3. Backend API Key Security: Optional authentication header for private backend deployments.
+ * 4. Model Context Protocol (MCP) Diagnostics: Fetches `/api/mcp/info` to display registered tools
+ *    and provides ready-to-copy client configuration blocks for Claude Desktop and Cursor.
+ */
 import React, { useState, useEffect } from 'react';
 import {
   Check,
@@ -31,21 +41,26 @@ export const SettingsView: React.FC = () => {
   } = useAuth();
   const { success, error } = useToast();
 
+  // Local form state
   const [inputUrl, setInputUrl] = useState(baseUrl);
   const [inputToken, setInputToken] = useState(token);
   const [inputApiKey, setInputApiKey] = useState(apiKey);
   const [isSaving, setIsSaving] = useState(false);
 
-  // MCP Info
+  // MCP Info state
   const [mcpData, setMcpData] = useState<any>(null);
   const [copiedSnippet, setCopiedSnippet] = useState(false);
 
+  // Fetch MCP tools metadata on mount
   useEffect(() => {
     fetchMcpInfo()
       .then((data) => setMcpData(data))
       .catch(() => setMcpData(null));
   }, []);
 
+  /**
+   * Save connection settings and trigger authentication re-verification.
+   */
   const handleSaveConnection = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSaving(true);
@@ -245,3 +260,4 @@ export const SettingsView: React.FC = () => {
     </div>
   );
 };
+

@@ -120,3 +120,4 @@ export const MergePRModal: React.FC<MergePRModalProps> = ({
     </Modal>
   );
 };
+

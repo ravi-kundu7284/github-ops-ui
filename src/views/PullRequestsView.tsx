@@ -248,3 +248,4 @@ export const PullRequestsView: React.FC = () => {
     </div>
   );
 };
+

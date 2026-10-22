@@ -1,3 +1,13 @@
+/**
+ * GitHub Actions Workflows & Execution Runs View.
+ *
+ * This view allows users to:
+ * 1. View all configured GitHub Actions workflows in `.github/workflows/`.
+ * 2. Monitor historical and active workflow runs with status/conclusion indicators
+ *    (Success, Failed, In Progress, Queued, Cancelled).
+ * 3. Inspect individual execution jobs and steps with timing metrics.
+ * 4. Access full log archives or open direct GitHub Actions run pages.
+ */
 import React, { useState, useEffect, useCallback } from 'react';
 import {
   CheckCircle2,
@@ -17,15 +27,24 @@ import { Workflow, WorkflowRun, WorkflowRunLogs } from '../types/github';
 
 export const WorkflowsView: React.FC = () => {
   const { activeOwner, activeRepoName } = useActiveRepo();
+
+  // State: List of workflows defined in repository
   const [workflows, setWorkflows] = useState<Workflow[]>([]);
+
+  // State: List of recent workflow execution runs
   const [runs, setRuns] = useState<WorkflowRun[]>([]);
+
+  // Loading indicator for background fetches
   const [isLoading, setIsLoading] = useState(false);
 
-  // Selected run logs modal
+  // Modal inspection state for a selected workflow run's jobs and logs
   const [selectedRun, setSelectedRun] = useState<WorkflowRun | null>(null);
   const [runLogs, setRunLogs] = useState<WorkflowRunLogs | null>(null);
   const [isLoadingLogs, setIsLoadingLogs] = useState(false);
 
+  /**
+   * Fetch both the workflow definitions and recent execution history in parallel.
+   */
   const loadData = useCallback(async () => {
     if (!activeOwner || !activeRepoName) return;
     setIsLoading(true);
@@ -37,16 +56,20 @@ export const WorkflowsView: React.FC = () => {
       setWorkflows(wfData.workflows || []);
       setRuns(runsData.workflow_runs || []);
     } catch {
-      // Handled
+      // Handled gracefully in view
     } finally {
       setIsLoading(false);
     }
   }, [activeOwner, activeRepoName]);
 
+  // Load workflows on mount or when active repository context changes
   useEffect(() => {
     loadData();
   }, [loadData]);
 
+  /**
+   * Fetch job step logs when the user clicks 'Jobs & Logs' on a specific run.
+   */
   const handleInspectRun = async (run: WorkflowRun) => {
     setSelectedRun(run);
     setIsLoadingLogs(true);

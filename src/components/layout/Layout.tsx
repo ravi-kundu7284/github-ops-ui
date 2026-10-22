@@ -33,3 +33,4 @@ export const Layout: React.FC<LayoutProps> = ({ currentView, onNavigate, childre
     </div>
   );
 };
+

@@ -109,3 +109,4 @@ export const Topbar: React.FC<TopbarProps> = ({ onOpenSearch }) => {
     </header>
   );
 };
+

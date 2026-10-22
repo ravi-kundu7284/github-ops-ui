@@ -43,3 +43,4 @@ describe('API Client Configuration', () => {
     expect(getStoredApiKey()).toBe('');
   });
 });
+

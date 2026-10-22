@@ -150,3 +150,4 @@ export const BranchesView: React.FC = () => {
     </div>
   );
 };
+

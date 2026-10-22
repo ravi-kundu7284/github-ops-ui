@@ -28,3 +28,4 @@ describe('Button Component', () => {
     expect(btn.className).toContain('bg-[#da3633]');
   });
 });
+

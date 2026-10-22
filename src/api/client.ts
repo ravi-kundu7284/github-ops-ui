@@ -530,3 +530,4 @@ export async function searchGitHub(params: {
   if (params.page) qs.set('page', String(params.page));
   return request(`/api/search?${qs.toString()}`);
 }
+

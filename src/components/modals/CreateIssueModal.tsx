@@ -121,3 +121,4 @@ export const CreateIssueModal: React.FC<CreateIssueModalProps> = ({
     </Modal>
   );
 };
+

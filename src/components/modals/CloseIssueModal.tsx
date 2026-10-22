@@ -80,3 +80,4 @@ export const CloseIssueModal: React.FC<CloseIssueModalProps> = ({
     </Modal>
   );
 };
+
